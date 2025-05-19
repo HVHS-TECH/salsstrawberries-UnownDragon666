@@ -39,6 +39,14 @@ input {
   border-radius: 6px;
 }
 
+select {
+  width: 103%;
+  padding: 0.5rem;
+  margin-top: 0.3rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
 button {
   margin-top: 1.5rem;
   padding: 0.7rem 1.2rem;
