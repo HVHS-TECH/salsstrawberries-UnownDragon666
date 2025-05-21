@@ -30,9 +30,12 @@ window.email = () => {
         console.log(fbdata);
         document.getElementById('emailMessage').innerHTML = `
             <div id="emailMessage">
-                <p>${fbdata.email}</p>
+                <p>From: Sal's Strawberry Saloon</p>
                 <p>Hello, ${fbdata.name}</p>
                 <p>This is Sal's Strawberry Saloon, reaching out about your car's extended insurance policy.</p>
+                <p>Also, we are offering a deal on your favorite fruit: ${fbdata.favoriteFruit}</p>
+                <p>You can get ${fbdata.fruitQuantity} servings per week for 27.3% more!</p>
+                <p>Best regards, Sal's Strawberry Saloon</p>
             </div>
             `;
     }).catch((error) => {
