@@ -10,10 +10,10 @@ console.log(`%c  fb_io.mjs  `, `color: ${COL_C}; background-color: ${COL_B}`);
 // Imports
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-auth.js";
-import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-database.js";
+import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-database.js";
 
 // Exports
-export { fb_initialiseAndAuth, fb_write };
+export { fb_initialiseAndAuth, fb_write, fb_read };
 
 
 /***************************************************************/
@@ -70,4 +70,18 @@ function fb_write(_data) {
     const auth = getAuth();
     const refPath = ref(db, 'salsStrawberrySaloon/users/' + auth.currentUser.uid);
     set(refPath, _data);
+}
+
+function fb_read() {
+    console.log(`%c  fb_read()  `, `color: ${COL_C}; background-color: ${COL_B}`);
+
+    const db = getDatabase();
+    const auth = getAuth();
+    const refPath = ref(db, 'salsStrawberrySaloon/users/' + auth.currentUser.uid);
+    return get(refPath).then((snapshot) => {
+        let fbdata = snapshot.val();
+        return fbdata;
+    }).catch((error) => {
+        console.log(error);
+    });
 }
