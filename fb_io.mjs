@@ -94,7 +94,7 @@ function fb_sortedRead(_path, _sortKey, _numberOfItems) {
     return get(QUERY).then((snapshot) => {
         let fbdata = []
         snapshot.forEach((childSnapshot) => {
-            fbdata.push(childSnapshot.val());            
+            fbdata.push(childSnapshot.val().name + ': ' + childSnapshot.val().favoriteFruit);            
         })
         return fbdata;
     })

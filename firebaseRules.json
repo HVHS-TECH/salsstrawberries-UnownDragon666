@@ -6,7 +6,9 @@
         },
         "users": {
             ".read": "auth != null",
-            ".indexOn": ["name"],
+            ".indexOn": [
+                "name"
+            ],
             "$uid": {
                 ".write": "$uid === auth.uid || true === root.child('admins').hasChild(auth.uid)",
                 "name": {
@@ -23,6 +25,12 @@
                 ".indexOn": [
                     "favoriteFruit"
                 ],
+                "name": {
+                    ".read": true
+                },
+                "favoriteFruit": {
+                    ".read": true
+                },
                 "$uid": {
                     ".read": "true === root.child('admins').hasChild(auth.uid) || auth.uid === $uid",
                     ".write": "auth.uid === $uid"
