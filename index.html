@@ -14,8 +14,9 @@
     <h1>Sal’s Strawberry Saloon</h1>
     <h2>(and other fruit products)</h2>
 
-    <button onclick="auth()">Login with Google</button>
+    <button id="login" onclick="auth()">Login with Google</button>
     <button onclick="email()">View email</button>
+    <button onclick="readFav()">View favorite fruits</button>
 
     <form id="fruitForm">
       <label for="name">Your Name:</label>
@@ -25,10 +26,10 @@
       <input type="text" id="favoriteFruit" name="favoriteFruit" required />
 
       <label for="fruitQuantity">How many servings per week?</label>
-      <input type="number" id="fruitQuantity" name="fruitQuantity" required />
+      <input type="number" id="fruitQuantity" name="fruitQuantity" min="1" required />
 
       <label for="age">Age:</label>
-      <input type="number" id="age" name="age" required />
+      <input type="number" id="age" name="age" min="1" required />
 
       <label for="gender">Gender:</label>
       <select id="gender" name="gender" required>

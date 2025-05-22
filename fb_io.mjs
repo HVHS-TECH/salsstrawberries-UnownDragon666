@@ -10,10 +10,10 @@ console.log(`%c  fb_io.mjs  `, `color: ${COL_C}; background-color: ${COL_B}`);
 // Imports
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-auth.js";
-import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-database.js";
+import { getDatabase, ref, set, get, orderByChild, limitToFirst, query } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-database.js";
 
 // Exports
-export { fb_initialiseAndAuth, fb_write, fb_read };
+export { fb_initialiseAndAuth, fb_write, fb_read, fb_sortedRead };
 
 
 /***************************************************************/
@@ -84,4 +84,18 @@ function fb_read() {
     }).catch((error) => {
         console.log(error);
     });
+}
+
+function fb_sortedRead(_path, _sortKey, _numberOfItems) {
+    console.log(`%c  fb_sortedRead()  `, `color: ${COL_C}; background-color: ${COL_B}`);
+
+    const DB = getDatabase();
+    const QUERY = query(ref(DB, _path), orderByChild(_sortKey), limitToFirst(_numberOfItems));
+    return get(QUERY).then((snapshot) => {
+        let fbdata = []
+        snapshot.forEach((childSnapshot) => {
+            fbdata.push(childSnapshot.val());            
+        })
+        return fbdata;
+    })
 }
