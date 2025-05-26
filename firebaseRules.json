@@ -7,7 +7,8 @@
         "users": {
             ".read": "auth != null",
             ".indexOn": [
-                "name"
+                "name",
+                "favoriteFruit"
             ],
             "$uid": {
                 ".write": "$uid === auth.uid || true === root.child('admins').hasChild(auth.uid)",
@@ -15,23 +16,24 @@
                     ".read": true
                 },
                 "email": {
-                    ".read": "auth.uid == $uid"
+                    ".read": "auth.uid === $uid"
                 }
             },
             ".write": false
         },
         "salsStrawberrySaloon": {
             "users": {
+                ".read": "auth != null",
                 ".indexOn": [
                     "favoriteFruit"
                 ],
-                "name": {
-                    ".read": true
-                },
-                "favoriteFruit": {
-                    ".read": true
-                },
                 "$uid": {
+                    "name": {
+                        ".read": "auth != null"
+                    },
+                    "favoriteFruit": {
+                        ".read": "auth != null"
+                    },
                     ".read": "true === root.child('admins').hasChild(auth.uid) || auth.uid === $uid",
                     ".write": "auth.uid === $uid"
                 }

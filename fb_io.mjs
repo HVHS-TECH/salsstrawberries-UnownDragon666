@@ -13,7 +13,7 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstati
 import { getDatabase, ref, set, get, orderByChild, limitToFirst, query } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-database.js";
 
 // Exports
-export { fb_initialiseAndAuth, fb_write, fb_read, fb_sortedRead };
+export { fb_initialiseAndAuth, fb_initialise, fb_write, fb_read, fb_sortedRead };
 
 
 /***************************************************************/
@@ -22,7 +22,7 @@ export { fb_initialiseAndAuth, fb_write, fb_read, fb_sortedRead };
 // Initialises firebase and authenticates with Google
 // Input: None
 // Output: None
-/***************************************************************/   
+/***************************************************************/
 function fb_initialiseAndAuth() {
     console.log(`%c  fb_authenticateAndAuth()  `, `color: ${COL_C}; background-color: ${COL_B}`);
 
@@ -54,6 +54,25 @@ function fb_initialiseAndAuth() {
     }).catch((error) => {
         console.log(error)
     });
+}
+
+function fb_initialise() {
+    console.log(`%c  fb_initialise()  `, `color: ${COL_C}; background-color: ${COL_B}`);
+
+    // Initialise firebase
+    const firebaseConfig = {
+        apiKey: "AIzaSyCkKH0pJ-Fo9axQNsBswxIwZyuruG1X6ts",
+        authDomain: "comp-2025-idrees-munshi-24d0e.firebaseapp.com",
+        databaseURL: "https://comp-2025-idrees-munshi-24d0e-default-rtdb.asia-southeast1.firebasedatabase.app",
+        projectId: "comp-2025-idrees-munshi-24d0e",
+        storageBucket: "comp-2025-idrees-munshi-24d0e.firebasestorage.app",
+        messagingSenderId: "811934625308",
+        appId: "1:811934625308:web:a1ff1ffffdcab01bcd79d9",
+        measurementId: "G-7P3VZN9ZFD"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getDatabase(app);
 }
 
 /***************************************************************/
