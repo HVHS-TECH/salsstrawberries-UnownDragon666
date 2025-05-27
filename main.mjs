@@ -25,9 +25,20 @@ window.submit = () => {
         return;
     }
 
+    // Test if favorite fruit is a number, and makes sure it isn't
+    const numberRegex = /[0-9]+$/;
+    if (numberRegex.test(document.getElementById('favoriteFruit').value) === true) {
+        alert('Fruit cannot be a number.');
+        return;
+    } else if (numberRegex.test(document.getElementById('name').value) === true) {
+        alert('Name cannot be a number.');
+        return;
+    }
+
     fb_write({
         name: document.getElementById('name').value,
-        favoriteFruit: document.getElementById('favoriteFruit').value,
+        // Ensure favorite fruit is lowercase, so the sorted read works correctly
+        favoriteFruit: document.getElementById('favoriteFruit').value.toLowerCase(),
         fruitQuantity: parseInt(document.getElementById('fruitQuantity').value),
         age: parseInt(document.getElementById('age').value),
         gender: document.getElementById('gender').value,
@@ -63,10 +74,25 @@ window.email = () => {
 
 window.readFav = () => {
     fb_sortedRead('salsStrawberrySaloon/users', 'favoriteFruit', 5).then((fbdata) => {
-        console.log(fbdata);
+        // Display the top 5 favorite fruits
+        document.getElementById('favoriteFruits').innerHTML = `
+        <div id="favoriteFruits">
+            <p>Top 5 favorite fruits:</p>
+            <ul>
+                <li>${fbdata[0]}</li>
+                <li>${fbdata[1]}</li>
+                <li>${fbdata[2]}</li>
+                <li>${fbdata[3]}</li>
+                <li>${fbdata[4]}</li>
+            </ul>
+        </div>
+        `;
+    }).catch((error) => {
+        console.log(error);
     });
 }
 
 window.setup = () => {
     fb_initialise();
 }
+

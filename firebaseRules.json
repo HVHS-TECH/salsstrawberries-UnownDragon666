@@ -32,7 +32,8 @@
                         ".read": "auth != null"
                     },
                     "favoriteFruit": {
-                        ".read": "auth != null"
+                        ".read": "auth != null",
+                        ".validate": "newData.isString()"
                     },
                     ".read": "true === root.child('admins').hasChild(auth.uid) || auth.uid === $uid",
                     ".write": "auth.uid === $uid"
