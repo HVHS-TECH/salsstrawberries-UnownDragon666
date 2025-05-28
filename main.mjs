@@ -8,7 +8,7 @@ const COL_B = '#CD7F32';	//  console.log for functions scheme
 console.log(`%c  main.mjs  `, `color: ${COL_C}; background-color: ${COL_B}`);
 
 import {
-    fb_initialiseAndAuth, fb_write, fb_read, fb_sortedRead, fb_initialise
+    fb_initialiseAndAuth, fb_write, fb_read, fb_sortedRead, fb_initialise, getAuth
 }
     from './fb_io.mjs';
 
@@ -47,7 +47,13 @@ window.submit = () => {
 }
 
 window.email = () => {
-    fb_read().then((fbdata) => {
+    const auth = getAuth();
+    if (!auth.currentUser) {
+        console.log('No user logged in');
+        throw new Error('No user logged in');
+    }
+
+    fb_read('salsStrawberrySaloon/users/' + auth.currentUser.uid).then((fbdata) => {
         console.log(fbdata);
         if (fbdata.updatePermissiom == true) {
             document.getElementById('emailMessage').innerHTML = `
@@ -96,3 +102,44 @@ window.setup = () => {
     fb_initialise();
 }
 
+window.favoriteFruitFrequency = () => {
+    fb_read('salsStrawberrySaloon/users').then((fbdata) => {
+        // Make a frequency table for the favorite fruits
+        let frequencyObject = {};
+        Object.keys(fbdata).forEach((key) => {
+            if (fbdata[key].favoriteFruit in frequencyObject) {
+                frequencyObject[fbdata[key].favoriteFruit] += 1;
+            } else {
+                frequencyObject[fbdata[key].favoriteFruit] = 1;
+            }
+        })
+
+        // Sort the frequency table
+        // let frequencyArray = [];
+        // for (const [key, value] of Object.entries(frequencyObject)) {
+        //     if (value > frequencyArray[0]) {
+        //         frequencyArray.splice(0, 0, key + ': ' + value);
+        //         continue;
+        //     }
+        //     frequencyArray.push(key + ': ' + value);
+        // }
+
+        console.log(frequencyObject);
+
+        // Display the frequency table  
+        document.getElementById('favoriteFruits').innerHTML = `
+        <div id="favoriteFruits">
+            <p>Favorite fruit frequency:</p>
+            <ul>
+                <li>${frequencyArray[0]}</li>
+                <li>${frequencyArray[1]}</li>
+                <li>${frequencyArray[2]}</li>
+                <li>${frequencyArray[3]}</li>
+                <li>${frequencyArray[4]}</li>
+            </ul>
+        </div>
+        `;
+    }).catch((error) => {
+        console.log(error);
+    });
+}

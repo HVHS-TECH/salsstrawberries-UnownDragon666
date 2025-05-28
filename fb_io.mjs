@@ -13,7 +13,7 @@ import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstati
 import { getDatabase, ref, set, get, orderByChild, limitToFirst, query } from "https://www.gstatic.com/firebasejs/9.1.3/firebase-database.js";
 
 // Exports
-export { fb_initialiseAndAuth, fb_initialise, fb_write, fb_read, fb_sortedRead };
+export { fb_initialiseAndAuth, fb_initialise, fb_write, fb_read, fb_sortedRead, getAuth };
 
 
 /***************************************************************/
@@ -91,12 +91,17 @@ function fb_write(_data) {
     set(refPath, _data);
 }
 
-function fb_read() {
+function fb_read(_path) {
     console.log(`%c  fb_read()  `, `color: ${COL_C}; background-color: ${COL_B}`);
+
+    if (!getAuth().currentUser) {
+        console.log('No user logged in');
+        throw new Error('No user logged in');
+    }
 
     const db = getDatabase();
     const auth = getAuth();
-    const refPath = ref(db, 'salsStrawberrySaloon/users/' + auth.currentUser.uid);
+    const refPath = ref(db, _path);
     return get(refPath).then((snapshot) => {
         let fbdata = snapshot.val();
         return fbdata;
