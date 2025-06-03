@@ -104,25 +104,22 @@ window.setup = () => {
 
 window.favoriteFruitFrequency = () => {
     fb_read('salsStrawberrySaloon/users').then((fbdata) => {
-        // Make a frequency table for the favorite fruits
+        // Make an array filled with the frequencies of favorite fruits {fruit: frequency}
         let frequencyObject = {};
-        Object.keys(fbdata).forEach((key) => {
+        for (const key in fbdata) {
             if (fbdata[key].favoriteFruit in frequencyObject) {
                 frequencyObject[fbdata[key].favoriteFruit] += 1;
             } else {
                 frequencyObject[fbdata[key].favoriteFruit] = 1;
             }
-        })
+        }
 
-        // Sort the frequency table
-        // let frequencyArray = [];
-        // for (const [key, value] of Object.entries(frequencyObject)) {
-        //     if (value > frequencyArray[0]) {
-        //         frequencyArray.splice(0, 0, key + ': ' + value);
-        //         continue;
-        //     }
-        //     frequencyArray.push(key + ': ' + value);
-        // }
+        // Sort the frequency table from most to least
+        let frequencyArray = Object.entries(frequencyObject).sort((a, b) => b[1] - a[1]);
+
+        frequencyArray = frequencyArray.map(([key, value]) => `${key}: ${value}`);
+
+        console.log(frequencyArray);
 
         console.log(frequencyObject);
 
@@ -131,11 +128,11 @@ window.favoriteFruitFrequency = () => {
         <div id="favoriteFruits">
             <p>Favorite fruit frequency:</p>
             <ul>
-                <li>${frequencyArray[0]}</li>
-                <li>${frequencyArray[1]}</li>
-                <li>${frequencyArray[2]}</li>
-                <li>${frequencyArray[3]}</li>
-                <li>${frequencyArray[4]}</li>
+                ${
+            // Take the frequency array, and iterate through each item, 
+            // and display it, but wrapping it in <li> tags
+            frequencyArray.map((item) => `<li>${item}</li>`).join('')
+            }
             </ul>
         </div>
         `;
